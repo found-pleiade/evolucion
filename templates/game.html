@@ -1,0 +1,16 @@
+{{define "game"}}
+<!DOCTYPE html>
+<html>
+  {{template "head" .}}
+  <body>
+    <div class="notification is-info">
+      <button class="delete"></button>
+      Tu es connecté en tant que {{.}}.
+    </div>
+
+    <div hx-ext="ws" ws-connect="ws://localhost:1323/ws">
+      <div id="ws-div"></div>
+    </div>
+  </body>
+</html>
+{{end}}
