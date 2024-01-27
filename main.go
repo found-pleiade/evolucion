@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
 	"io"
 	"math/rand"
@@ -28,8 +29,13 @@ var t = &Template{
 // It checks if the player has already a session and if
 // he is already in the game. If not, it saves the player to the game.
 func connection(c echo.Context) error {
-	session, _ := session.Get("session", c)
-	if session != nil {
+	session, err := session.Get("session", c)
+	if err != nil {
+		fmt.Println(err)
+		return c.String(http.StatusInternalServerError, "Internal Server Error")
+	}
+
+	if session.Values["id"] != nil {
 		if game.isPlayerPresent(session.Values["id"].(int)) {
 			return c.Redirect(http.StatusFound, "/play")
 		}
@@ -62,8 +68,13 @@ func connection(c echo.Context) error {
 // If yes, redirect to play page
 // If not, redirect to login page
 func index(c echo.Context) error {
-	session, _ := session.Get("session", c)
-	if session != nil {
+	session, err := session.Get("session", c)
+	if err != nil {
+		fmt.Println(err)
+		return c.String(http.StatusInternalServerError, "Internal Server Error")
+	}
+
+	if session.Values["id"] != nil {
 		if game.isPlayerPresent(session.Values["id"].(int)) {
 			return c.Redirect(http.StatusFound, "/play")
 		}
