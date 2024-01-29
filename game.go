@@ -9,22 +9,28 @@ import (
 )
 
 type (
+	Food struct {
+		CurrentValue int
+		FutureValue  int
+	}
 	Card struct {
-		Name string `json:"name" xml:"name" form:"name" query:"name"`
+		Name string
 	}
 	Player struct {
-		ID   int    `json:"id" xml:"id" form:"id" query:"id"`
-		Name string `json:"name" xml:"name" form:"name" query:"name"`
-		Deck []Card `json:"deck" xml:"deck" form:"deck" query:"deck"`
+		ID   int
+		Name string
+		Deck []Card
 	}
+
 	Game struct {
-		Players     []Player `json:"players" xml:"players" form:"players" query:"players"`
-		Deck        []Card   `json:"deck" xml:"deck" form:"deck" query:"deck"`
+		Food        Food
+		Players     []Player
+		Deck        []Card
 		DiscardPile []Card
 	}
 )
 
-var game = Game{Players: []Player{{ID: 55, Name: "Alexis", Deck: []Card{carapace, carapace, carnivore}}, {ID: 1050, Name: "Baptiste", Deck: []Card{carnivore}}}, Deck: []Card{carapace, carnivore}, DiscardPile: []Card{carapace}}
+var game = Game{Food: Food{CurrentValue: 10, FutureValue: 19}, Players: []Player{{ID: 55, Name: "Alexis", Deck: []Card{carapace, carapace, carnivore}}, {ID: 1050, Name: "Baptiste", Deck: []Card{carnivore}}}, Deck: []Card{carapace, carnivore}, DiscardPile: []Card{carapace}}
 
 func Play(c echo.Context) error {
 	session, err := session.Get("session", c)
