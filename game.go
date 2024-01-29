@@ -9,12 +9,18 @@ import (
 )
 
 type (
-	Card struct {
-		Name string
-	}
 	Food struct {
 		CurrentValue int
 		FutureValue  int
+	}
+	Card struct {
+		Name             string
+		ShortDescription string
+		LongDescription  string
+		Color            string
+		IsPrior          bool
+		Carnivore        bool
+		FoodPoints       int
 	}
 	Game struct {
 		Food        Food
