@@ -31,7 +31,7 @@ type (
 	Player struct {
 		ID      int
 		Name    string
-		Deck    []Card
+		Hand    []Card
 		Species []Species
 	}
 	Species struct {
@@ -43,7 +43,7 @@ type (
 	}
 )
 
-var game = Game{Food: Food{CurrentValue: 10, FutureValue: 19}, Players: []Player{{ID: 55, Name: "Alexis", Deck: []Card{carapaceTemplate.Gerenate()[0], charognardTemplate.Gerenate()[0], longCouTemplate.Gerenate()[0]}}, {ID: 1050, Name: "Baptiste", Deck: []Card{chasseEnMeuteTemplate.Gerenate()[0]}}}, Deck: []Card{carapaceTemplate.Gerenate()[0], longCouTemplate.Gerenate()[0]}, DiscardPile: []Card{cooperationTemplate.Gerenate()[0], cornesTemplate.Gerenate()[0]}}
+var game = Game{Food: Food{CurrentValue: 10, FutureValue: 19}, Players: []Player{{ID: 55, Name: "Alexis", Hand: []Card{carapaceTemplate.Gerenate()[0], charognardTemplate.Gerenate()[0], longCouTemplate.Gerenate()[0]}}, {ID: 1050, Name: "Baptiste", Hand: []Card{chasseEnMeuteTemplate.Gerenate()[0]}}}, Deck: []Card{carapaceTemplate.Gerenate()[0], longCouTemplate.Gerenate()[0]}, DiscardPile: []Card{cooperationTemplate.Gerenate()[0], cornesTemplate.Gerenate()[0]}}
 
 func Play(c echo.Context) error {
 	session, err := session.Get("session", c)
