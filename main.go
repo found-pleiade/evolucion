@@ -54,7 +54,7 @@ func connection(c echo.Context) error {
 
 	// Save player to game
 	id := rand.Intn(1000)
-	game.Players = append(game.Players, Player{ID: id, Name: name, Deck: []Card{carapace, carnivore}})
+	game.Players = append(game.Players, Player{ID: id, Name: name, Deck: []Card{carapaceTemplate.Gerenate()[0], cornesTemplate.Gerenate()[0]}})
 
 	// Save ID to session
 	session.Values["id"] = id
