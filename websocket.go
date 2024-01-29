@@ -12,8 +12,7 @@ import (
 )
 
 type Data struct {
-	Food      Food
-	Players   []Player
+	Game      Game
 	SessionID int
 }
 
@@ -39,7 +38,7 @@ func ws(c echo.Context) error {
 	go func() {
 		for isOpen {
 			var buf bytes.Buffer
-			data := Data{Food: game.Food, Players: game.Players, SessionID: session.Values["id"].(int)}
+			data := Data{Game: game, SessionID: session.Values["id"].(int)}
 			err := t.Render(&buf, "board", data, c)
 			if err != nil {
 				fmt.Println(err)
