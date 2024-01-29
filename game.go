@@ -18,12 +18,13 @@ type (
 		Deck []Card `json:"deck" xml:"deck" form:"deck" query:"deck"`
 	}
 	Game struct {
-		Players []Player `json:"players" xml:"players" form:"players" query:"players"`
-		Deck    []Card   `json:"deck" xml:"deck" form:"deck" query:"deck"`
+		Players     []Player `json:"players" xml:"players" form:"players" query:"players"`
+		Deck        []Card   `json:"deck" xml:"deck" form:"deck" query:"deck"`
+		DiscardPile []Card
 	}
 )
 
-var game = Game{Players: []Player{{ID: 55, Name: "Alexis", Deck: []Card{carapace, carapace, carnivore}}, {ID: 1050, Name: "Baptiste", Deck: []Card{carnivore}}}, Deck: []Card{carapace, carnivore}}
+var game = Game{Players: []Player{{ID: 55, Name: "Alexis", Deck: []Card{carapace, carapace, carnivore}}, {ID: 1050, Name: "Baptiste", Deck: []Card{carnivore}}}, Deck: []Card{carapace, carnivore}, DiscardPile: []Card{carapace}}
 
 func Play(c echo.Context) error {
 	session, err := session.Get("session", c)
