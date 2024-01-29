@@ -43,7 +43,7 @@ type (
 	}
 )
 
-var game = Game{Food: Food{CurrentValue: 10, FutureValue: 19}, Players: []Player{{ID: 55, Name: "Alexis", Deck: []Card{carapace, carapace, carnivore}, Species: []Species{{BodySize: 1, Food: 0, Population: 1, Name: "Yolo", Traits: []Card{}}}}, {ID: 1050, Name: "Baptiste", Deck: []Card{carnivore}, Species: []Species{{BodySize: 1, Food: 0, Population: 1, Name: "Yolo", Traits: []Card{}}}}}, Deck: []Card{carapace, carnivore}, DiscardPile: []Card{carapace}}
+var game = Game{Food: Food{CurrentValue: 10, FutureValue: 19}, Players: []Player{{ID: 55, Name: "Alexis", Deck: []Card{carapaceTemplate.Gerenate()[0], charognardTemplate.Gerenate()[0], longCouTemplate.Gerenate()[0]}}, {ID: 1050, Name: "Baptiste", Deck: []Card{chasseEnMeuteTemplate.Gerenate()[0]}}}, Deck: []Card{carapaceTemplate.Gerenate()[0], longCouTemplate.Gerenate()[0]}, DiscardPile: []Card{cooperationTemplate.Gerenate()[0], cornesTemplate.Gerenate()[0]}}
 
 func Play(c echo.Context) error {
 	session, err := session.Get("session", c)
