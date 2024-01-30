@@ -27,6 +27,12 @@ type (
 		Players     []Player
 		Deck        []Card
 		DiscardPile []Card
+		Phase       Phase
+	}
+	Phase struct {
+		Description  string
+		Name         string
+		IsSequential bool
 	}
 	Player struct {
 		ID      int
