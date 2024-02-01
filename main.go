@@ -4,13 +4,17 @@ import (
 	"fmt"
 	"html/template"
 	"io"
+	"log"
 	"math/rand"
 	"net/http"
+	"time"
 
 	"github.com/gorilla/sessions"
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+
+	"github.com/gin-gonic/gin"
 )
 
 type Template struct {
@@ -83,7 +87,7 @@ func index(c echo.Context) error {
 	return c.Render(http.StatusOK, "login", nil)
 }
 
-func main() {
+func mainbis() {
 	e := echo.New()
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
@@ -95,4 +99,74 @@ func main() {
 	e.POST("/connection", connection) // Connection handles the connection of a player to the game
 	e.GET("/ws", ws)                  // ws is the websocket connection
 	e.Logger.Fatal(e.Start(":1323"))
+}
+
+// Initialize event and Start procnteessing requests
+func NewPlayerServer(playerId string) (event *TPlayerStream) {
+	event = &TPlayerStream{
+		PlayerId:      playerId,
+		Message:       make(chan string),
+		NewClients:    make(chan chan string),
+		ClosedClients: make(chan chan string),
+		TotalClients:  make(map[chan string]bool),
+	}
+	go event.listen()
+	return
+}
+
+func HeadersMiddleware() gin.HandlerFunc {
+	return func(context *gin.Context) {
+		context.Writer.Header().Set("Content-Type", "text/event-stream")
+		context.Writer.Header().Set("Cache-Control", "no-cache")
+		context.Writer.Header().Set("Connection", "keep-alive")
+		context.Writer.Header().Set("Transfer-Encoding", "chunked")
+		context.Next()
+	}
+}
+
+func timeMessageLoop(stream *TPlayerStream) {
+	for {
+		time.Sleep(time.Second * 10)
+		now := time.Now().Format("2006-01-02 15:04:05")
+		currentTime := fmt.Sprintf("The Current Time Is %v", now)
+
+		// Send current time to clients message channel
+		stream.Message <- currentTime
+	}
+}
+
+func main() {
+	router := gin.Default()
+	router.StaticFile("/", "./public/index.html")
+	router.GET("/connection", func(context *gin.Context) {
+		log.Print("test connexion")
+		context.Next()
+	})
+
+	stream := NewPlayerServer("test")
+	go timeMessageLoop(stream)
+
+	authorized := router.Group("/", gin.BasicAuth(gin.Accounts{"admin": "admin123"}))
+	authorized.GET("/stream", HeadersMiddleware(), stream.serveHTTP(),
+		func(context *gin.Context) {
+			getValue, ok := context.Get("clientChan")
+			if !ok {
+				return
+			}
+			clientChan, ok := getValue.(TClientChan)
+			if !ok {
+				return
+			}
+			context.Stream(func(w io.Writer) bool {
+				// Stream message to client from message channel
+				if msg, ok := <-clientChan; ok {
+					context.SSEvent("message", msg)
+					return true
+				}
+				return false
+			})
+		},
+	)
+
+	router.Run(":1323")
 }

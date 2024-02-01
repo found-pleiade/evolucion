@@ -8,9 +8,10 @@
       Tu es connecté en tant que {{.}}.
     </div>
 
-    <div hx-ext="ws" ws-connect="ws://localhost:1323/ws">
-      <div id="ws-div"></div>
+    <div hx-ext="sse" sse-connect="/event_stream">
     </div>
+
+
   </body>
 </html>
 {{end}}
