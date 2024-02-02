@@ -25,6 +25,8 @@ var t = &Template{
 	templates: template.Must(template.ParseGlob("./templates/*.*html")),
 }
 
+var game Game
+
 // Connection handles the connection of a player to the game.
 // It checks if the player has already a session and if
 // he is already in the game. If not, it saves the player to the game.
@@ -54,7 +56,7 @@ func connection(c echo.Context) error {
 
 	// Save player to game
 	id := rand.Intn(1000)
-	game.Players = append(game.Players, Player{ID: id, Name: name, Hand: []Card{carapaceTemplate.Gerenate()[0], cornesTemplate.Gerenate()[0]}})
+	game.Players = append(game.Players, Player{ID: id, Name: name, Hand: []Card{carapaceTemplate.Generate()[0], cornesTemplate.Generate()[0]}})
 
 	// Save ID to session
 	session.Values["id"] = id
@@ -84,6 +86,7 @@ func index(c echo.Context) error {
 }
 
 func main() {
+	game = *game.InitializeGame()
 	e := echo.New()
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())

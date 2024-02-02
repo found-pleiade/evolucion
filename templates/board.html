@@ -10,7 +10,7 @@
   {{end}}
   {{range $player := .Game.Players}} {{if eq $.SessionID $player.ID}}
   <div class="columns is-centered is-vcentered">
-    {{range $card := $player.Deck}}
+    {{range $card := $player.Hand}}
     <div class="column is-2">{{template "card" $card}}</div>
     {{end}}
   </div>
