@@ -28,6 +28,7 @@ type (
 		Deck        []Card
 		DiscardPile []Card
 		Phase       Phase
+		PlayerTurn  int // Index of the player in the Players slice
 	}
 	Phase struct {
 		Description  string
