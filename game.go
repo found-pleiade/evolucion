@@ -43,8 +43,6 @@ type (
 	}
 )
 
-var game = Game{Food: Food{CurrentValue: 10, FutureValue: 19}, Players: []Player{{ID: 55, Name: "Alexis", Hand: []Card{carapaceTemplate.Gerenate()[0], charognardTemplate.Gerenate()[0], longCouTemplate.Gerenate()[0]}}, {ID: 1050, Name: "Baptiste", Hand: []Card{chasseEnMeuteTemplate.Gerenate()[0]}}}, Deck: []Card{carapaceTemplate.Gerenate()[0], longCouTemplate.Gerenate()[0]}, DiscardPile: []Card{cooperationTemplate.Gerenate()[0], cornesTemplate.Gerenate()[0]}}
-
 func Play(c echo.Context) error {
 	session, err := session.Get("session", c)
 	if err != nil || session.Values["name"] == nil {
@@ -53,6 +51,14 @@ func Play(c echo.Context) error {
 	}
 
 	return c.Render(http.StatusOK, "game", session.Values["name"])
+}
+
+func (g *Game) InitializeGame() *Game {
+	g.Deck = InitializeDeck()
+	g.DiscardPile = []Card{}
+	g.Food = Food{CurrentValue: 0, FutureValue: 0}
+	g.Players = []Player{{ID: 55, Name: "Alexis", Hand: []Card{carapaceTemplate.Generate()[0], charognardTemplate.Generate()[0], longCouTemplate.Generate()[0]}}, {ID: 1050, Name: "Baptiste", Hand: []Card{chasseEnMeuteTemplate.Generate()[0]}}}
+	return g
 }
 
 func (g *Game) RemovePlayer(id int) {

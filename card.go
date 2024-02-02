@@ -17,7 +17,7 @@ var (
 	cardTemplates = []CardTemplate{carnivoreTemplate, carapaceTemplate, charognardTemplate, chasseEnMeuteTemplate, cooperationTemplate, cornesTemplate, longCouTemplate}
 )
 
-func (ct *CardTemplate) Gerenate() []Card {
+func (ct *CardTemplate) Generate() []Card {
 	var cards []Card
 	for _, food := range ct.FoodSlice {
 		card := ct.Card

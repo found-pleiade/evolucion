@@ -5,38 +5,38 @@ import (
 	"testing"
 )
 
-func TestGerenateFull(t *testing.T) {
+func TestGenerateFull(t *testing.T) {
 	ct := CardTemplate{Card: Card{Name: "test"}, FoodSlice: []int{0, 1, 2}}
 	want := []Card{{Name: "test", FoodPoints: 0}, {Name: "test", FoodPoints: 1}, {Name: "test", FoodPoints: 2}}
-	got := ct.Gerenate()
+	got := ct.Generate()
 	if !slices.Equal(got, want) {
-		t.Errorf("Gerenate() = %v, want %v", got, want)
+		t.Errorf("Generate() = %v, want %v", got, want)
 	}
 }
 
-func TestGerenateFoodSliceDouble(t *testing.T) {
+func TestGenerateFoodSliceDouble(t *testing.T) {
 	ct := CardTemplate{Card: Card{Name: "test"}, FoodSlice: []int{1, 1}}
 	want := []Card{{Name: "test", FoodPoints: 1}, {Name: "test", FoodPoints: 1}}
-	got := ct.Gerenate()
+	got := ct.Generate()
 	if !slices.Equal(got, want) {
-		t.Errorf("Gerenate() = %v, want %v", got, want)
+		t.Errorf("Generate() = %v, want %v", got, want)
 	}
 }
 
-func TestGerenateFoodSliceEmpty(t *testing.T) {
+func TestGenerateFoodSliceEmpty(t *testing.T) {
 	ct := CardTemplate{Card: Card{Name: "test"}, FoodSlice: []int{}}
 	want := []Card{}
-	got := ct.Gerenate()
+	got := ct.Generate()
 	if !slices.Equal(got, want) {
-		t.Errorf("Gerenate() = %v, want %v", got, want)
+		t.Errorf("Generate() = %v, want %v", got, want)
 	}
 }
 
-func TestGerenateFoodSliceNil(t *testing.T) {
+func TestGenerateFoodSliceNil(t *testing.T) {
 	ct := CardTemplate{Card: Card{Name: "test"}}
 	want := []Card{}
-	got := ct.Gerenate()
+	got := ct.Generate()
 	if !slices.Equal(got, want) {
-		t.Errorf("Gerenate() = %v, want %v", got, want)
+		t.Errorf("Generate() = %v, want %v", got, want)
 	}
 }
