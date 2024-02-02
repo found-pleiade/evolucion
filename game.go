@@ -39,6 +39,7 @@ type (
 		Name    string
 		Hand    []Card
 		Species []Species
+		IsReady bool
 	}
 	Species struct {
 		BodySize   int
