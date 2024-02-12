@@ -35,13 +35,6 @@ type (
 		Name         string
 		IsSequential bool
 	}
-	Player struct {
-		ID      int
-		Name    string
-		Hand    []Card
-		Species []Species
-		IsReady bool
-	}
 	Species struct {
 		BodySize   int
 		Food       int
