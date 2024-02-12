@@ -85,6 +85,24 @@ func index(c echo.Context) error {
 	return c.Render(http.StatusOK, "login", nil)
 }
 
+func playerToggleReady(c echo.Context) error {
+	session, err := session.Get("session", c)
+	if err != nil {
+		fmt.Println(err)
+		return c.String(http.StatusInternalServerError, "Internal Server Error")
+	}
+
+	if session.Values["id"] != nil {
+		for i, player := range game.Players {
+			if player.ID == session.Values["id"].(int) {
+				game.Players[i].toggleReady()
+			}
+		}
+	}
+
+	return c.Redirect(http.StatusFound, "/play")
+}
+
 func main() {
 	game.initialize()
 	e := echo.New()
@@ -92,10 +110,11 @@ func main() {
 	e.Use(middleware.Recover())
 	e.Use(session.Middleware(sessions.NewCookieStore([]byte("secret"))))
 	e.Renderer = t
-	e.Static("/public", "public")     // Serve static files, like images
-	e.GET("/play", play)              // Play is the main page of the game
-	e.GET("/", index)                 // Index is the login page
-	e.POST("/connection", connection) // Connection handles the connection of a player to the game
-	e.GET("/ws", ws)                  // ws is the websocket connection
+	e.Static("/public", "public")              // Serve static files, like images
+	e.GET("/play", play)                       // Play is the main page of the game
+	e.GET("/", index)                          // Index is the login page
+	e.POST("/connection", connection)          // Connection handles the connection of a player to the game
+	e.GET("/ws", ws)                           // ws is the websocket connection
+	e.POST("/player/ready", playerToggleReady) // playerToggleReady toggles the ready status of a player
 	e.Logger.Fatal(e.Start(":1323"))
 }

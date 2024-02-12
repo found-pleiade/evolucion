@@ -7,3 +7,7 @@ type Player struct {
 	Species []Species
 	IsReady bool
 }
+
+func (p *Player) toggleReady() {
+	p.IsReady = !p.IsReady
+}
