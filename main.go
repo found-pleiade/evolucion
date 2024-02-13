@@ -56,7 +56,7 @@ func connection(c echo.Context) error {
 
 	// Save player to game
 	id := rand.Intn(1000)
-	game.Players = append(game.Players, Player{ID: id, Name: name, Hand: []Card{carapaceTemplate.Generate()[0], cornesTemplate.Generate()[0]}})
+	game.Players = append(game.Players, Player{ID: id, Name: name, Hand: []Card{carapaceTemplate.generate()[0], cornesTemplate.generate()[0]}})
 
 	// Save ID to session
 	session.Values["id"] = id
@@ -86,14 +86,14 @@ func index(c echo.Context) error {
 }
 
 func main() {
-	game.Initialize()
+	game.initialize()
 	e := echo.New()
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 	e.Use(session.Middleware(sessions.NewCookieStore([]byte("secret"))))
 	e.Renderer = t
 	e.Static("/public", "public")     // Serve static files, like images
-	e.GET("/play", Play)              // Play is the main page of the game
+	e.GET("/play", play)              // Play is the main page of the game
 	e.GET("/", index)                 // Index is the login page
 	e.POST("/connection", connection) // Connection handles the connection of a player to the game
 	e.GET("/ws", ws)                  // ws is the websocket connection
