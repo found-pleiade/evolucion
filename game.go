@@ -51,7 +51,7 @@ type (
 	}
 )
 
-func Play(c echo.Context) error {
+func play(c echo.Context) error {
 	session, err := session.Get("session", c)
 	if err != nil || session.Values["name"] == nil {
 		fmt.Println(err)
@@ -61,14 +61,14 @@ func Play(c echo.Context) error {
 	return c.Render(http.StatusOK, "game", session.Values["name"])
 }
 
-func (g *Game) Initialize() {
-	g.Deck = InitializeDeck()
+func (g *Game) initialize() {
+	g.Deck = initializeDeck()
 	g.Phase = gamePhase[1]
 	// For dev purposes
 	g.mock()
 }
 
-func (g *Game) RemovePlayer(id int) {
+func (g *Game) removePlayer(id int) {
 	for i, player := range g.Players {
 		if player.ID == id {
 			g.Players = append(g.Players[:i], g.Players[i+1:]...)
@@ -89,5 +89,5 @@ func (g *Game) isPlayerPresent(id int) bool {
 }
 
 func (g *Game) mock() {
-	g.Players = []Player{{ID: 55, Name: "Alexis", Hand: []Card{carapaceTemplate.Generate()[0], charognardTemplate.Generate()[0], longCouTemplate.Generate()[0]}}, {ID: 1050, Name: "Baptiste", Hand: []Card{chasseEnMeuteTemplate.Generate()[0]}}}
+	g.Players = []Player{{ID: 55, Name: "Alexis", Hand: []Card{carapaceTemplate.generate()[0], charognardTemplate.generate()[0], longCouTemplate.generate()[0]}}, {ID: 1050, Name: "Baptiste", Hand: []Card{chasseEnMeuteTemplate.generate()[0]}}}
 }
