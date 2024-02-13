@@ -86,7 +86,7 @@ func index(c echo.Context) error {
 }
 
 func main() {
-	game = *game.InitializeGame()
+	game.Initialize()
 	e := echo.New()
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())

@@ -61,14 +61,11 @@ func Play(c echo.Context) error {
 	return c.Render(http.StatusOK, "game", session.Values["name"])
 }
 
-func (g *Game) InitializeGame() *Game {
+func (g *Game) Initialize() {
 	g.Deck = InitializeDeck()
-	g.DiscardPile = []Card{}
-	g.PlayerTurn = 0
 	g.Phase = gamePhase[1]
-	g.Food = Food{CurrentValue: 0, FutureValue: 0}
-	g.Players = []Player{{ID: 55, Name: "Alexis", Hand: []Card{carapaceTemplate.Generate()[0], charognardTemplate.Generate()[0], longCouTemplate.Generate()[0]}}, {ID: 1050, Name: "Baptiste", Hand: []Card{chasseEnMeuteTemplate.Generate()[0]}}}
-	return g
+	// For dev purposes
+	g.mock()
 }
 
 func (g *Game) RemovePlayer(id int) {
@@ -89,4 +86,8 @@ func (g *Game) isPlayerPresent(id int) bool {
 	}
 
 	return false
+}
+
+func (g *Game) mock() {
+	g.Players = []Player{{ID: 55, Name: "Alexis", Hand: []Card{carapaceTemplate.Generate()[0], charognardTemplate.Generate()[0], longCouTemplate.Generate()[0]}}, {ID: 1050, Name: "Baptiste", Hand: []Card{chasseEnMeuteTemplate.Generate()[0]}}}
 }
