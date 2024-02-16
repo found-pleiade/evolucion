@@ -66,7 +66,9 @@ func (g *Game) initialize() {
 func (g *Game) removePlayer(id int) {
 	for i, player := range g.Players {
 		if player.ID == id {
+			g.DiscardPile = append(g.DiscardPile, g.Players[i].Hand...)
 			g.Players = append(g.Players[:i], g.Players[i+1:]...)
+			break
 		}
 	}
 }
