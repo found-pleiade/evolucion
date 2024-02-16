@@ -31,9 +31,11 @@ type (
 		PlayerTurn  int // Index of the player in the Players slice
 	}
 	Phase struct {
-		Description  string
-		Name         string
-		IsSequential bool
+		Description  string // Description of the phase
+		Name         string // Name of the phase
+		Number       int    // Phase number
+		NextPhase    int    // Next phase number
+		IsSequential bool   // If the phase is sequential or not
 	}
 	Species struct {
 		BodySize   int
@@ -56,7 +58,7 @@ func play(c echo.Context) error {
 
 func (g *Game) initialize() {
 	g.Deck = initializeDeck()
-	g.Phase = gamePhase[1]
+	g.Phase = gamePhases[PhaseWait]
 	// For dev purposes
 	g.mock()
 }
