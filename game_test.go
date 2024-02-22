@@ -8,9 +8,9 @@ import (
 func TestRemovePlayerNominal(t *testing.T) {
 	game := Game{Players: []Player{{ID: 1}, {ID: 2}, {ID: 3}}}
 	want := Game{Players: []Player{{ID: 1}, {ID: 3}}}
-	game.RemovePlayer(2)
+	game.removePlayer(2)
 	if !game.Equal(want) {
-		t.Errorf("RemovePlayer(): got %v, want %v", game, want)
+		t.Errorf("removePlayer(): got %v, want %v", game, want)
 	}
 }
 
@@ -18,9 +18,9 @@ func TestRemovePlayerNominal(t *testing.T) {
 func TestRemovePlayerNonPresent(t *testing.T) {
 	game := Game{Players: []Player{{ID: 1}, {ID: 2}, {ID: 3}}}
 	want := Game{Players: []Player{{ID: 1}, {ID: 2}, {ID: 3}}}
-	game.RemovePlayer(4)
+	game.removePlayer(4)
 	if !game.Equal(want) {
-		t.Errorf("RemovePlayer(): got %v, want %v", game, want)
+		t.Errorf("removePlayer(): got %v, want %v", game, want)
 	}
 }
 
@@ -28,9 +28,9 @@ func TestRemovePlayerNonPresent(t *testing.T) {
 func TestRemovePlayerZeroPlayer(t *testing.T) {
 	game := Game{Players: []Player{{ID: 1}}}
 	want := Game{Players: []Player{}}
-	game.RemovePlayer(1)
+	game.removePlayer(1)
 	if !game.Equal(want) {
-		t.Errorf("RemovePlayer(): got %v, want %v", game, want)
+		t.Errorf("removePlayer(): got %v, want %v", game, want)
 	}
 }
 
@@ -38,9 +38,9 @@ func TestRemovePlayerZeroPlayer(t *testing.T) {
 func TestRemovePlayerNilPlayer(t *testing.T) {
 	game := Game{Players: []Player{}}
 	want := Game{Players: []Player{}}
-	game.RemovePlayer(1)
+	game.removePlayer(1)
 	if !game.Equal(want) {
-		t.Errorf("RemovePlayer(): got %v, want %v", game, want)
+		t.Errorf("removePlayer(): got %v, want %v", game, want)
 	}
 }
 
@@ -48,9 +48,9 @@ func TestRemovePlayerNilPlayer(t *testing.T) {
 func TestRemovePlayerDiscardPile(t *testing.T) {
 	game := Game{Players: []Player{{ID: 1, Hand: []Card{{Name: "test1"}}}, {ID: 2, Hand: []Card{{Name: "test2"}}}, {ID: 3, Hand: []Card{{Name: "test3"}}}}, DiscardPile: []Card{{Name: "test4"}}}
 	want := Game{Players: []Player{{ID: 1, Hand: []Card{{Name: "test1"}}}, {ID: 3, Hand: []Card{{Name: "test3"}}}}, DiscardPile: []Card{{Name: "test4"}, {Name: "test2"}}}
-	game.RemovePlayer(2)
+	game.removePlayer(2)
 	if !game.Equal(want) {
-		t.Errorf("RemovePlayer(): got %v, want %v", game, want)
+		t.Errorf("removePlayer(): got %v, want %v", game, want)
 	}
 }
 
@@ -58,9 +58,9 @@ func TestRemovePlayerDiscardPile(t *testing.T) {
 func TestRemovePlayerDiscardPileWithoutHand(t *testing.T) {
 	game := Game{Players: []Player{{ID: 1, Hand: []Card{{Name: "test1"}}}, {ID: 2}, {ID: 3, Hand: []Card{{Name: "test3"}}}}, DiscardPile: []Card{{Name: "test4"}}}
 	want := Game{Players: []Player{{ID: 1, Hand: []Card{{Name: "test1"}}}, {ID: 3, Hand: []Card{{Name: "test3"}}}}, DiscardPile: []Card{{Name: "test4"}}}
-	game.RemovePlayer(2)
+	game.removePlayer(2)
 	if !game.Equal(want) {
-		t.Errorf("RemovePlayer(): got %v, want %v", game, want)
+		t.Errorf("removePlayer(): got %v, want %v", game, want)
 	}
 }
 
