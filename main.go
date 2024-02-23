@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"html/template"
 	"io"
-	"math/rand"
 	"net/http"
 
 	"github.com/gorilla/sessions"
@@ -55,8 +54,7 @@ func connection(c echo.Context) error {
 	}
 
 	// Save player to game
-	id := rand.Intn(1000)
-	game.Players = append(game.Players, Player{ID: id, Name: name, Hand: []Card{carapaceTemplate.generate()[0], cornesTemplate.generate()[0]}})
+	id := game.addPlayer(name)
 
 	// Save ID to session
 	session.Values["id"] = id

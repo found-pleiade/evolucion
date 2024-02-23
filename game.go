@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
 	"net/http"
 
 	"github.com/labstack/echo-contrib/session"
@@ -61,6 +62,15 @@ func (g *Game) initialize() {
 	g.Phase = gamePhases[PhaseWait]
 	// For dev purposes
 	g.mock()
+}
+
+func (g *Game) addPlayer(name string) int {
+	var newPlayer Player
+	newPlayer.initialize(rand.Intn(1000), name)
+
+	g.Players = append(g.Players, newPlayer)
+
+	return newPlayer.ID
 }
 
 func (g *Game) removePlayer(id int) {

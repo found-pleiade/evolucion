@@ -1,11 +1,17 @@
 package main
 
 type Player struct {
-	ID      int
-	Name    string
-	Hand    []Card
-	Species []Species
-	IsReady bool
+	ID           int
+	Name         string
+	Hand         []Card
+	Species      []Species
+	IsReady      bool
+	SelectedCard int
+}
+
+// initialize initializes the player.
+func (p *Player) initialize(id int, name string) {
+	p.SelectedCard = -1
 }
 
 // toggleReady toggles the player's ready status.
