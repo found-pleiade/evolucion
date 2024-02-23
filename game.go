@@ -31,20 +31,6 @@ type (
 		Phase       Phase
 		PlayerTurn  int // Index of the player in the Players slice
 	}
-	Phase struct {
-		Description  string // Description of the phase
-		Name         string // Name of the phase
-		Number       int    // Phase number
-		NextPhase    int    // Next phase number
-		IsSequential bool   // If the phase is sequential or not
-	}
-	Species struct {
-		BodySize   int
-		Food       int
-		Population int
-		Name       string
-		Traits     []Card
-	}
 )
 
 func play(c echo.Context) error {
