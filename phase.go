@@ -1,11 +1,25 @@
 package main
 
+type Phase struct {
+	Description  string // Description of the phase
+	Name         string // Name of the phase
+	Number       int    // Phase number
+	NextPhase    int    // Next phase number
+	IsSequential bool   // If the phase is sequential or not
+}
+
 const (
+	// PhaseWait is the phase where the game is waiting for players to join.
 	PhaseWait = iota
+	// PhaseSelectFood is the phase where players select food cards.
 	PhaseSelectFood
+	// PhasePlayCards is the phase where players play cards.
 	PhasePlayCards
+	// PhaseRevealFood is the phase where food cards are revealed.
 	PhaseRevealFood
+	// PhaseActivatePriorities is the phase where priority cards are activated.
 	PhaseActivatePriorities
+	// PhaseFeedSpecies is the phase where species are fed.
 	PhaseFeedSpecies
 )
 
