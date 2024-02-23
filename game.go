@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math/rand"
 	"net/http"
+	"time"
 
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
@@ -77,8 +78,51 @@ func (g *Game) isPlayerPresent(id int) bool {
 			}
 		}
 	}
-
 	return false
+}
+
+func (g *Game) shouldChangePhase() bool {
+	switch g.Phase.Number {
+	case PhaseWait:
+		return arePlayersReady(g.Players, false)
+	case PhaseSelectFood:
+		return arePlayersReady(g.Players, false) && g.allPlayersHaveSelectedCard()
+	case PhasePlayCards:
+		return arePlayersReady(g.Players, false)
+	case PhaseRevealFood:
+		// sleep for a few seconds
+		time.Sleep(3 * time.Second)
+		return true
+	case PhaseActivatePriorities:
+		return arePlayersReady(g.Players, true)
+	case PhaseFeedSpecies:
+		// We simplify the condition here for now
+		// TODO: cover all cases
+		return g.allSpeciesAreFed() || arePlayersReady(g.Players, false)
+	}
+	return true
+}
+
+func (g *Game) allPlayersHaveSelectedCard() bool {
+	for _, player := range g.Players {
+		if player.SelectedCard == -1 {
+			return false
+		}
+	}
+	return true
+}
+
+func (g *Game) allSpeciesAreFed() bool {
+	for _, player := range g.Players {
+		if !player.areSpeciesFed() {
+			return false
+		}
+	}
+	return true
+}
+
+func (g *Game) nextPhase() {
+	g.Phase = gamePhases[g.Phase.NextPhase]
 }
 
 func (g *Game) mock() {

@@ -98,6 +98,10 @@ func playerToggleReady(c echo.Context) error {
 		}
 	}
 
+	if game.shouldChangePhase() {
+		game.nextPhase()
+	}
+
 	return c.Redirect(http.StatusFound, "/play")
 }
 
