@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func TestHasPriorityCard(t *testing.T) {
+func TestSpeciesHasPriorityCard(t *testing.T) {
 	species := Species{Traits: []Card{{IsPrior: false}, {IsPrior: true}, {IsPrior: false}}}
 	want := true
 	got := species.hasPriorityCard()
